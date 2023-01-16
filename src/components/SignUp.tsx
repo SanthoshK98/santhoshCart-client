@@ -66,7 +66,10 @@ export const SignUp = () => {
     <Stack
       spacing={2}
       sx={{
-        width: "75%",
+        width: {
+          xs:"90%",
+          lg:"75%",
+        },
         border: "1px solid",
         margin: "20px",
         padding: "20px",
@@ -90,7 +93,10 @@ export const SignUp = () => {
           <TextField
             label="Email"
             size="small"
-            sx={{ width: "75%" }}
+            sx={{ width: {
+              xs:"90%",
+              lg:"75%",
+            }, }}
             placeholder="Enter your Email"
             {...register("email", { required: "Email is required" })}
             error={!!errors?.email}
@@ -101,7 +107,10 @@ export const SignUp = () => {
             label="Password"
             type="password"
             size="small"
-            sx={{ width: "75%" }}
+            sx={{ width: {
+              xs:"90%",
+              lg:"75%",
+            }, }}
             placeholder="Enter your Password"
             {...register("password", {required: "Password is required"})}
             error={!!errors?.password}
@@ -111,7 +120,10 @@ export const SignUp = () => {
             label="Confirm Password"
             type="password"
             size="small"
-            sx={{ width: "75%" }}
+            sx={{ width: {
+              xs:"90%",
+              lg:"75%",
+            }, }}
             placeholder="Enter your Password"
             {...register("cpassword",{required: "Confirm Password is required"})}
             error={!!errors?.cpassword}
@@ -120,7 +132,10 @@ export const SignUp = () => {
           <TextField
             label="Mobile Number"
             size="small"
-            sx={{ width: "75%" }}
+            sx={{ width: {
+              xs:"90%",
+              lg:"75%",
+            }, }}
             placeholder="Enter your mobile number"
             {...register("mobile",{required: "mobile number is required"})}
             error={!!errors?.mobile}
@@ -130,7 +145,10 @@ export const SignUp = () => {
             label="Age"
             type="number"
             size="small"
-            sx={{ width: "75%" }}
+            sx={{ width: {
+              xs:"90%",
+              lg:"75%",
+            }, }}
             placeholder="Enter your Age"
             {...register("age",{required: "Age is required"})}
             error={!!errors?.age}
@@ -159,7 +177,10 @@ export const SignUp = () => {
             <Button 
               variant="contained" 
               size="small" 
-              sx={{ width: "37%" }} 
+              sx={{ width: {
+                xs:"45%",
+                lg:"37%",
+              }, }} 
               type='submit'
             >
               SignUp
@@ -167,7 +188,10 @@ export const SignUp = () => {
             <Button
               variant="contained"
               size="small"
-              sx={{ width: "37%" }}
+              sx={{ width: {
+                xs:"45%",
+                lg:"37%",
+              }, }}
               startIcon={<GoogleIcon color="inherit" />}
             >
               SignUp with Google
