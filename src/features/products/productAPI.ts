@@ -1,9 +1,10 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
 
+export const baseUrl = 'https://nogue5gytf.execute-api.ap-south-1.amazonaws.com/Prod/'
 export const productsApi = createApi({
     reducerPath: 'productsApi',
     baseQuery: fetchBaseQuery({
-        baseUrl: 'https://nogue5gytf.execute-api.ap-south-1.amazonaws.com/Prod/'
+        baseUrl: baseUrl
     }),
     tagTypes: ['Product','Cart','Orders'],
     endpoints: (builder)=>({
@@ -28,7 +29,7 @@ export const productsApi = createApi({
             invalidatesTags: ['Cart']
         }),
         orders: builder.query({
-            query: ()=>'orders',
+            query: ()=>'getOrders',
             providesTags: ['Orders']
         }),
         addOrder: builder.mutation({

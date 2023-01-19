@@ -1,5 +1,6 @@
 import {
   Stack,
+  Paper,
   TextField,
   Typography,
   Button,
@@ -63,21 +64,23 @@ export const SignUp = () => {
     }
   }
   return (
+    
     <Stack
       spacing={2}
-      sx={{
-        width: {
-          xs:"90%",
-          lg:"75%",
-        },
-        border: "1px solid",
+      alignItems="center"
+    >
+      <Paper elevation={5} sx={{
         margin: "20px",
         padding: "20px",
-      }}
-    >
+        width: {
+          xs:"90%",
+          md:"40%",
+
+        },
+      }}>
       <Typography variant="h5">SignUp</Typography>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Stack spacing={4}>
+        <Stack spacing={4} alignItems="center">
         <TextField
             label="Name"
             size="small"
@@ -173,14 +176,11 @@ export const SignUp = () => {
             </RadioGroup>
             <FormHelperText>{errors.gender?.message as ReactNode}</FormHelperText>
           </FormControl>
-          <Stack direction="row" spacing={2}>
+          <Stack direction="row" spacing={4}>
             <Button 
               variant="contained" 
               size="small" 
-              sx={{ width: {
-                xs:"45%",
-                lg:"37%",
-              }, }} 
+              
               type='submit'
             >
               SignUp
@@ -188,10 +188,7 @@ export const SignUp = () => {
             <Button
               variant="contained"
               size="small"
-              sx={{ width: {
-                xs:"45%",
-                lg:"37%",
-              }, }}
+              
               startIcon={<GoogleIcon color="inherit" />}
             >
               SignUp with Google
@@ -217,6 +214,8 @@ export const SignUp = () => {
         Registered Successfully, Redirecting to login page...
         </SnackbarAlert>
       </Snackbar>
+      </Paper>
     </Stack>
+  
   );
 };
