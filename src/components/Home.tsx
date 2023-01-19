@@ -19,20 +19,25 @@ export const Home = () => {
   ])
   const {data =[], isLoading, error} = useProductsQuery()
   console.log('Display Data',data)
+
+  const handleCart = (item: any)=>{
+      
+  }
     const location = useLocation()
     console.log(location)
 
   return (
     <Stack padding={2}>
-    <Grid container rowSpacing={2} justifyContent="space-around">
+    <Grid container  rowSpacing={2} >
     
     {
       isLoading ? <div>Loading ............</div> : (data?.products.map((each)=>{
-        return <Grid item xs={12} sm={6} lg={3} xl={3} >
+        return <Grid item xs={12} sm={6} md ={3} lg={3} xl={3} >
         <Box sx={{
           width:{
             xs:'100%',
-            md:"300px"
+            sm:"90%",
+            md:"90%"
           }
         }}>
         <Card>
@@ -52,8 +57,8 @@ export const Home = () => {
             </Typography>
           </CardContent>
           <CardActions>
-            <Button size="small">Add to Cart</Button>
-            <Button size="small">Buy Now</Button>
+            <Button size="small" variant="contained" onClick={(each)=>handleCart(each)}>Add to Cart</Button>
+            <Button size="small" variant="contained">Buy Now</Button>
           </CardActions>
         </Card>
       </Box>

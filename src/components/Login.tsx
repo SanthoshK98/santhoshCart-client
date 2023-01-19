@@ -2,6 +2,7 @@ import {Stack, TextField, Typography, Button, IconButton, Paper} from '@mui/mate
 import GoogleIcon from '@mui/icons-material/Google';
 import {useState} from 'react'
 import { useNavigate, useLocation } from 'react-router-dom';
+import cookie from 'react-cookies'
 
 export const Login = () => {
   const [email, setEmail] = useState<string>('')
@@ -14,7 +15,7 @@ export const Login = () => {
   const handleSubmit = async(e:any)=>{
     e.preventDefault()
     try{
-      let response = await fetch('http://localhost:5000/loginUser',{
+      let response: any = await fetch('http://localhost:5000/loginUser',{
         method:"POST",
         headers: {
           "Content-Type":"application/json"
@@ -23,6 +24,7 @@ export const Login = () => {
       })
       response = await response.json()
       console.log(response)
+      cookie.save('token',response?.token)
       if(response?.status){
 
         navigate('/')
