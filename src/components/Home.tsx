@@ -1,10 +1,11 @@
-import { Stack, Box, Card, CardContent, Typography, CardActions, Button, CardMedia, Grid } from "@mui/material"
-import { useState } from "react"
+import { Stack, Box, Card, CardContent, Typography, CardActions, Button, CardMedia, Grid, CircularProgress, Backdrop } from "@mui/material"
+import { useEffect, useState } from "react"
 import { useLocation } from "react-router-dom"
 import { useProductsQuery } from "../features/products/productAPI"
 import { baseUrl } from "../features/products/productAPI"
 
 export const Home = () => {
+  const [loading, setLoading] = useState(true)
   const [items, setItems] = useState([
     {
       name:"React",
@@ -19,7 +20,12 @@ export const Home = () => {
   ])
   const {data =[], isLoading, error} = useProductsQuery()
   console.log('Display Data',data)
-
+  useEffect(() => {
+    if(!isLoading){
+      setLoading(false)
+    }
+  }, [isLoading])
+  
   const handleCart = (item: any)=>{
       
   }
@@ -31,7 +37,12 @@ export const Home = () => {
     <Grid container  rowSpacing={2} >
     
     {
-      isLoading ? <div>Loading ............</div> : (data?.products.map((each)=>{
+      isLoading ? <Backdrop
+      sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+      open={loading}
+    >
+      <CircularProgress color="inherit" />
+    </Backdrop> : error ? <div>Something went wrong</div> : (data?.products.map((each)=>{
         return <Grid item xs={12} sm={6} md ={3} lg={3} xl={3} >
         <Box sx={{
           width:{

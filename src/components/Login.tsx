@@ -24,9 +24,9 @@ export const Login = () => {
       })
       response = await response.json()
       console.log(response)
-      cookie.save('token',response?.token)
+      
       if(response?.status){
-
+        cookie.save('token',response?.token)
         navigate('/')
       }
     }catch(err){

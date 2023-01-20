@@ -66,11 +66,11 @@ export const NavBar = () => {
             </Stack>
             <Drawer open={isDrawerOpen} onClose={()=>setIsDrawerOpen(false)}>
               <Stack spacing={0.5} width="300px">
-              <Link component={RouterLink} to='/' state={{user:"Hello"}}  sx={{background:'#4287f5', color:'white'}} underline='none'><Button color='inherit'>Home</Button></Link>
-                <Link component={RouterLink} to='/cart'  sx={{background:'#4287f5', color:'white'}} underline='none'><Button color='inherit'>Cart</Button></Link>
-                <Link component={RouterLink} to='/myorders'  sx={{background:'#4287f5', color:'white'}} underline='none'><Button color='inherit'>MyOrders</Button></Link>
-                <Link component={RouterLink} to='/login'  sx={{background:'#4287f5', color:'white'}} underline='none'><Button color='inherit'>Login</Button></Link>
-                <Link component={RouterLink} to='/signup'  sx={{background:'#4287f5', color:'white'}} underline='none'><Button color='inherit'>SignUp</Button></Link>
+              <Link component={RouterLink} to='/' state={{user:"Hello"}}  sx={{background:'#4287f5', color:'white'}} underline='none' onClick={()=>setIsDrawerOpen(false)}><Button color='inherit' >Home</Button></Link>
+                <Link component={RouterLink} to='/cart'  sx={{background:'#4287f5', color:'white'}} underline='none' onClick={()=>setIsDrawerOpen(false)}><Button color='inherit'>Cart</Button></Link>
+                <Link component={RouterLink} to='/myorders'  sx={{background:'#4287f5', color:'white'}} underline='none' onClick={()=>setIsDrawerOpen(false)}><Button color='inherit'>MyOrders</Button></Link>
+                <Link component={RouterLink} to='/login'  sx={{background:'#4287f5', color:'white'}} underline='none' onClick={()=>setIsDrawerOpen(false)}><Button color='inherit'>Login</Button></Link>
+                <Link component={RouterLink} to='/signup'  sx={{background:'#4287f5', color:'white'}} underline='none' onClick={()=>setIsDrawerOpen(false)}><Button color='inherit'>SignUp</Button></Link>
               </Stack>
             </Drawer>
         </Toolbar>

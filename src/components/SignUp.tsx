@@ -10,9 +10,10 @@ import {
 } from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
 import { useForm } from "react-hook-form";
-import { ReactNode, useState, forwardRef } from "react";
+import { ReactNode, useState, forwardRef, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { usePostUserMutation} from '../features/products/productAPI'
 
 const SnackbarAlert = forwardRef<HTMLDivElement, AlertProps>(
     function SnackbarAlert(props, ref){
@@ -22,6 +23,8 @@ const SnackbarAlert = forwardRef<HTMLDivElement, AlertProps>(
 
 export const SignUp = () => {
   const [open, setOpen] = useState<boolean>(false)
+  const [toNav, setToNav] = useState<boolean>(false)
+  const [postUser, result] = usePostUserMutation()
   const navigate = useNavigate()
   console.log(`{ Open: ${open}}`)
   const {
@@ -40,25 +43,23 @@ export const SignUp = () => {
   const onSubmit = async (data:any)=>{
     console.log(data)
     try{
-      let response = await fetch('http://localhost:5000/addUser',{
-        method: "POST",
-        headers: {
-          "Content-Type":"application/json"
-        },
-        body: JSON.stringify(data)
-      })
-      response = await response.json()
-      console.log(response)
-      if(response?.status){
+      postUser(data)
+      console.log(result)
+      if(!result.isError){
         setOpen(true)
-        
         reset()
-        // if(!open){
-        //   navigate('/login',{state:"Hello"})
-        // }
+        
+      }
+      // if(result?.status){
+      //   setOpen(true)
+        
+      //   reset()
+      //   // if(!open){
+      //   //   navigate('/login',{state:"Hello"})
+      //   // }
         
 
-      }
+      // }
     }catch(err){
       console.log(err)
     }
@@ -78,7 +79,7 @@ export const SignUp = () => {
 
         },
       }}>
-      <Typography variant="h5">SignUp</Typography>
+      <Typography variant="h5" mb={2}>SignUp</Typography>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={4} alignItems="center">
         <TextField
@@ -199,21 +200,22 @@ export const SignUp = () => {
           </Stack>
         </Stack>
       </form>
-      {/* <Snackbar 
-      message="Registered Successfully, Redirecting to login page..."
+      <Snackbar 
       autoHideDuration={6000}
       open={open}
       onClose={handleClose}
       anchorOrigin= {{
-        vertical: "bottom",
+        vertical: "top",
         horizontal: "center"
       }}
-      /> */}
-      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+      >
+        <Alert severity="success"  variant="filled" onClose={handleClose}>Registered Successfully</Alert>
+      </Snackbar>
+      {/* <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
         <SnackbarAlert onClose={handleClose} severity="success">
         Registered Successfully, Redirecting to login page...
         </SnackbarAlert>
-      </Snackbar>
+      </Snackbar> */}
       </Paper>
     </Stack>
   
