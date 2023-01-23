@@ -6,18 +6,6 @@ import { baseUrl } from "../features/products/productAPI"
 
 export const Home = () => {
   const [loading, setLoading] = useState(true)
-  const [items, setItems] = useState([
-    {
-      name:"React",
-      image:"https://source.unsplash.com/random",
-      description:"Lorem ipsum dolor, sit amet consectetur adipisicing elit. Delectus, error"
-    },
-    {
-      name:"React",
-      image:"https://source.unsplash.com/random",
-      description:"Lorem ipsum dolor, sit amet consectetur adipisicing elit. Delectus, error"
-    },
-  ])
   const {data =[], isLoading, error} = useProductsQuery()
   console.log('Display Data',data)
   useEffect(() => {

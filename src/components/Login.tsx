@@ -1,21 +1,26 @@
-import {Stack, TextField, Typography, Button, IconButton, Paper} from '@mui/material'
+import {Stack, TextField, Typography, Button, IconButton, Paper, CircularProgress, Backdrop} from '@mui/material'
 import GoogleIcon from '@mui/icons-material/Google';
 import {useState} from 'react'
 import { useNavigate, useLocation } from 'react-router-dom';
 import cookie from 'react-cookies'
+import { useLoginUserMutation } from '../features/products/productAPI';
+import { baseUrl } from '../features/products/productAPI';
 
 export const Login = () => {
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
+  const [loading, setLoading] = useState(false)
   const [open, setOpen] = useState<boolean>(false)
+  const [loginUser, result] = useLoginUserMutation()
   const navigate = useNavigate()
   const location = useLocation()
-  console.log(location)
+  // console.log(location)
  
   const handleSubmit = async(e:any)=>{
     e.preventDefault()
+    setLoading(true)
     try{
-      let response: any = await fetch('http://localhost:5000/loginUser',{
+      let response: any = await fetch(`${baseUrl}signin`,{
         method:"POST",
         headers: {
           "Content-Type":"application/json"
@@ -25,8 +30,9 @@ export const Login = () => {
       response = await response.json()
       console.log(response)
       
-      if(response?.status){
+      if(response?.token){
         cookie.save('token',response?.token)
+        cookie.save('role',response?.role)
         navigate('/')
       }
     }catch(err){
@@ -54,6 +60,12 @@ export const Login = () => {
             {/* <IconButton color='primary' aria-label='send'>
                 <GoogleIcon/>
             </IconButton> */}
+            <Backdrop
+      sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+      open={loading}
+    >
+      <CircularProgress color="inherit" />
+    </Backdrop>
         </Stack>
         </Stack>
       </Paper>  

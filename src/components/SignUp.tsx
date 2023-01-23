@@ -6,9 +6,11 @@ import {
   Button,
   IconButton,
   FormHelperText,
-  FormControl,FormLabel, FormControlLabel, RadioGroup, Radio, Snackbar, AlertProps, Alert
+  FormControl,FormLabel, FormControlLabel, RadioGroup, Radio, Snackbar, AlertProps, Alert, Avatar, Backdrop, CircularProgress
 } from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
+import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined';
+import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import { useForm } from "react-hook-form";
 import { ReactNode, useState, forwardRef, useEffect } from "react";
 import axios from "axios";
@@ -22,6 +24,8 @@ const SnackbarAlert = forwardRef<HTMLDivElement, AlertProps>(
 )
 
 export const SignUp = () => {
+  const [img,setImg] = useState<any>('')
+  const [loading, setLoading] = useState(false)
   const [open, setOpen] = useState<boolean>(false)
   const [toNav, setToNav] = useState<boolean>(false)
   const [postUser, result] = usePostUserMutation()
@@ -40,13 +44,16 @@ export const SignUp = () => {
     }
     setOpen(false)
   }
+  // console.log('IMAGE',img[0].name)
   const onSubmit = async (data:any)=>{
+    setLoading(true)
     console.log(data)
     try{
       postUser(data)
       console.log(result)
       if(!result.isError){
         setOpen(true)
+        setLoading(false)
         reset()
         
       }
@@ -80,6 +87,18 @@ export const SignUp = () => {
         },
       }}>
       <Typography variant="h5" mb={2}>SignUp</Typography>
+      <IconButton size="large">
+      <Avatar src={img}/>
+      </IconButton>
+      <IconButton color="primary" aria-label="upload picture" component="label" sx={{position: 'relative',top:'10px',right:'30px'}}>
+      <input hidden accept="image/*" type="file" onChange={(e)=>setImg(e.target.files)}/>
+      <CameraAltIcon/>
+      </IconButton>
+      
+      {/* <IconButton color="primary" aria-label="upload picture" component="label">
+      <input hidden accept="image/*" type="file" />
+          <PhotoCamera />
+      </IconButton> */}
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={4} alignItems="center">
         <TextField
@@ -197,6 +216,12 @@ export const SignUp = () => {
             {/* <IconButton color='primary' aria-label='send'>
                 <GoogleIcon/>
             </IconButton> */}
+            <Backdrop
+      sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+      open={loading}
+    >
+      <CircularProgress color="inherit" />
+    </Backdrop>
           </Stack>
         </Stack>
       </form>
