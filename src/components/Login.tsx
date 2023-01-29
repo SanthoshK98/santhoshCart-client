@@ -1,7 +1,7 @@
-import {Stack, TextField, Typography, Button, IconButton, Paper, CircularProgress, Backdrop} from '@mui/material'
+import {Stack, TextField, Typography, Button, IconButton, Paper, CircularProgress, Backdrop, Link} from '@mui/material'
 import GoogleIcon from '@mui/icons-material/Google';
 import {useEffect, useState} from 'react'
-import { useNavigate, useLocation } from 'react-router-dom';
+import { Link as RouterLink,useNavigate, useLocation } from 'react-router-dom';
 import cookie from 'react-cookies'
 import { useLoginUserMutation } from '../features/products/productAPI';
 import { baseUrl } from '../features/products/productAPI';
@@ -32,6 +32,7 @@ export const Login = () => {
       if(response?.token){
         cookie.save('token',response?.token,{ path: '/' })
         cookie.save('role',response?.role, { path: '/' })
+        setLoading(false)
         navigate('/')
       }
     }catch(err){
@@ -66,6 +67,7 @@ export const Login = () => {
       <CircularProgress color="inherit" />
     </Backdrop>
         </Stack>
+        <Link component={RouterLink} to='/signup' underline="none"><Typography>Don't have account? Register</Typography></Link>
         </Stack>
       </Paper>  
     </Stack>

@@ -6,7 +6,7 @@ import {
   Button,
   IconButton,
   FormHelperText,
-  FormControl,FormLabel, FormControlLabel, RadioGroup, Radio, Snackbar, AlertProps, Alert, Avatar, Backdrop, CircularProgress
+  FormControl,FormLabel, FormControlLabel, RadioGroup, Radio, Snackbar, AlertProps, Alert, Avatar, Backdrop, CircularProgress, Link
 } from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
 import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined';
@@ -14,7 +14,7 @@ import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import { useForm } from "react-hook-form";
 import { ReactNode, useState, forwardRef, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { usePostUserMutation} from '../features/products/productAPI'
 import Image from '../Images/image.jpg'
 import { baseUrl } from "../features/products/productAPI";
@@ -26,7 +26,7 @@ const SnackbarAlert = forwardRef<HTMLDivElement, AlertProps>(
 )
 
 export const SignUp = () => {
-  const [pImg,setPImg] = useState<any>('')
+  const [userImg,setUserImg] = useState<any>('')
   const [loading, setLoading] = useState(false)
   const [open, setOpen] = useState<boolean>(false)
   const [toNav, setToNav] = useState<boolean>(false)
@@ -46,11 +46,11 @@ export const SignUp = () => {
     }
     setOpen(false)
   }
-  console.log('IMAGE',pImg)
+  console.log('IMAGE',userImg)
   const onSubmit = async (data:any)=>{
     setLoading(true)
     let formdata = new FormData()
-    formdata.append('pImg',pImg)
+    formdata.append('userImg',userImg)
     formdata.append("userName",data.userName)
     formdata.append("email",data.email)
     formdata.append("password",data.password)
@@ -58,7 +58,7 @@ export const SignUp = () => {
     formdata.append("mobile",data.mobile)
     formdata.append("age",data.age)
     formdata.append("gender",data.gender)
-    console.log(data,pImg)
+    console.log(data,userImg)
 
     console.log('FORMDATA',formdata)
     try{
@@ -107,10 +107,10 @@ export const SignUp = () => {
       }}>
       <Typography variant="h5" mb={2}>SignUp</Typography>
       <IconButton size="large">
-      <Avatar src={pImg.name}/>
+      <Avatar src={userImg.name}/>
       </IconButton>
       <IconButton color="primary" aria-label="upload picture" component="label" sx={{position: 'relative',top:'10px',right:'30px'}}>
-      <input hidden accept="image/*" type="file" onChange={(e)=>setPImg(e.target.files[0])}/>
+      <input hidden accept="image/*" type="file" onChange={(e)=>setUserImg(e.target.files[0])}/>
       <CameraAltIcon/>
       </IconButton>
       
@@ -242,6 +242,7 @@ export const SignUp = () => {
       <CircularProgress color="inherit" />
     </Backdrop>
           </Stack>
+          <Link component={RouterLink} to='/login' underline="none"><Typography>Already have account? Login</Typography></Link>
         </Stack>
       </form>
       <Snackbar 
