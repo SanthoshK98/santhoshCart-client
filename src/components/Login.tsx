@@ -1,6 +1,6 @@
 import {Stack, TextField, Typography, Button, IconButton, Paper, CircularProgress, Backdrop} from '@mui/material'
 import GoogleIcon from '@mui/icons-material/Google';
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import { useNavigate, useLocation } from 'react-router-dom';
 import cookie from 'react-cookies'
 import { useLoginUserMutation } from '../features/products/productAPI';
@@ -15,7 +15,6 @@ export const Login = () => {
   const navigate = useNavigate()
   const location = useLocation()
   // console.log(location)
- 
   const handleSubmit = async(e:any)=>{
     e.preventDefault()
     setLoading(true)
@@ -31,8 +30,8 @@ export const Login = () => {
       console.log(response)
       
       if(response?.token){
-        cookie.save('token',response?.token)
-        cookie.save('role',response?.role)
+        cookie.save('token',response?.token,{ path: '/' })
+        cookie.save('role',response?.role, { path: '/' })
         navigate('/')
       }
     }catch(err){

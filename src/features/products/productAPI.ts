@@ -1,22 +1,33 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
 import cookie from 'react-cookies'
 
-const token = cookie.load('token')
 
+
+console.log('API-TOKEN')
+//Production
 export const baseUrl = 'https://nogue5gytf.execute-api.ap-south-1.amazonaws.com/Prod/'
+//Development
+// export const baseUrl = 'http://localhost:5000/'
 export const productsApi = createApi({
     reducerPath: 'productsApi',
     baseQuery: fetchBaseQuery({
-        // baseUrl: 'http://localhost:5000/',
         baseUrl,
         prepareHeaders: (headers, {getState})=>{
+            const token = cookie.load('token')
+            const role = cookie.load('role')
             headers.set('Access-Control-Allow-Origin','*')
             headers.append('token',token)
+            headers.append('role',role)
             return headers
         }
     }),
     tagTypes: ['Product','Cart','Orders','User'],
+    refetchOnMountOrArgChange: true,
     endpoints: (builder)=>({
+        user: builder.query<any,void>({
+            query: ()=>'getUser',
+            providesTags: ['User']
+        }),
         postUser: builder.mutation({
             query: (user)=>({
                 url: 'signup',
@@ -41,11 +52,11 @@ export const productsApi = createApi({
             query: (id)=>`product/${id}`,
             providesTags: ['Product']
         }),
-        cart: builder.query({
+        cart: builder.query<any, void>({
             query: ()=>'getCart',
             providesTags: ['Cart']
         }),
-        addCart: builder.mutation({
+        addCart: builder.mutation<any, any>({
             query: (cart)=>({
                 url: 'postCart',
                 method: 'POST',
@@ -76,7 +87,8 @@ export const {
     useCartQuery,
     useOrdersQuery,
     usePostUserMutation,
-    useLoginUserMutation
+    useLoginUserMutation,
+    useUserQuery
 } = productsApi
 
 // export const { 

@@ -2,7 +2,7 @@ import { Stack, Box, Card, CardContent, Typography, CardActions, Button, CardMed
 import { useEffect, useState } from "react"
 import { useLocation } from "react-router-dom"
 import { useProductsQuery } from "../features/products/productAPI"
-import { baseUrl } from "../features/products/productAPI"
+// import { baseUrl } from "../features/products/productAPI"
 
 export const Home = () => {
   const [loading, setLoading] = useState(true)

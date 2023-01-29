@@ -3,22 +3,39 @@ import Diversity1Icon from '@mui/icons-material/Diversity1';
 import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined';
 import {Link as RouterLink, useNavigate} from 'react-router-dom'
 import MenuIcon from '@mui/icons-material/Menu'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import Badge from '@mui/material/Badge';
 import cookie from 'react-cookies'
+import Avatar from '@mui/material/Avatar';
+import { useCartQuery, useUserQuery } from '../features/products/productAPI';
 
 export const NavBar = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false)
   const auth = cookie.load('token')
+  console.log("Cookie",auth)
+  const {data : userQuery, isLoading: queryLoading, isError: userError} = useUserQuery()
+  const {data: cartQuery, isLoading: cartLoading, isError: cartError} = useCartQuery()
+  // console.log('CART-QUERY',cartQuery)
+  // console.log(cartError)
+  // console.log(cartLoading)
+  console.log('CART-QUERY',useCartQuery())
+  console.log('USER-QUERY',useUserQuery())
   const navigate = useNavigate()
   const handleLogout = ()=>{
     
-    cookie.remove('token')
-    cookie.remove('role')
+    cookie.remove('token',{ path: '/' })
+    cookie.remove('role',{ path: '/' })
     setIsDrawerOpen(false)
     navigate('/login')
   }
+  const LoadRTK = ()=>{
+    useCartQuery()
+    useUserQuery()
+  }
+  useEffect(()=>{
+    // LoadRTK()
+  },[])
   return (
     <AppBar position='static'>
         <Toolbar>
@@ -32,7 +49,7 @@ export const NavBar = () => {
             </Typography>
             {
           auth ? (
-            <Stack direction='row' alignItems="end" spacing={2} sx={{
+            <Stack direction='row' alignItems="center" spacing={2} sx={{
               width: {
                 xs:"90%",
                 md:"50%",
@@ -43,19 +60,26 @@ export const NavBar = () => {
               },
               // color:'#eeeee'
             }}>
-                      <Link component={RouterLink} to='/' state={{user:"Hello"}} color="inherit" underline='none'><Button color='inherit'>Home</Button></Link>
+                      <Link component={RouterLink} to='/' color="inherit" underline='none'><Button color='inherit'>Home</Button></Link>
                       <Link component={RouterLink} to='/myorders' color="inherit" underline='none'><Button color='inherit'>MyOrders</Button></Link>
                       <Link component={RouterLink} to='/cart' color="inherit" underline='none'>
                         <IconButton size='large'  color='inherit'>
-                          <Badge badgeContent={2} color='error'>
+                           { cartQuery?.cart?.length ? (<Badge badgeContent={cartQuery?.cart?.length} color='error'>
                             <ShoppingCartOutlinedIcon/>
-                          </Badge>
+                          </Badge>) : (
+                            (<Badge badgeContent={'0'} color='error'>
+                            <ShoppingCartOutlinedIcon/>
+                          </Badge>)
+                          )}
                         </IconButton>
                       </Link>
                       <Link component={RouterLink} to='/login' color="inherit" underline='none'><Button color='inherit' onClick={handleLogout}>Logout</Button></Link>
+                      <IconButton size='large'>
+                        {userError ? <Avatar src='broken.jpg'/> :<Avatar src={userQuery?.user?.userImg}/>}
+                      </IconButton>
                   </Stack>
           ) : (
-            <Stack direction='row' alignItems="end" spacing={2} sx={{
+            <Stack direction='row' alignItems="center" spacing={2} sx={{
               width: {
                 xs:"90%",
                 md:"50%",
@@ -69,7 +93,7 @@ export const NavBar = () => {
                       <Link component={RouterLink} to='/' state={{user:"Hello"}} color="inherit" underline='none'><Button color='inherit'>Home</Button></Link>
                       <Link component={RouterLink} to='/cart' color="inherit" underline='none'>
                         <IconButton size='large'  color='inherit'>
-                          <Badge badgeContent={2} color='error'>
+                          <Badge badgeContent={'0'} color='error'>
                             <ShoppingCartOutlinedIcon/>
                           </Badge>
                         </IconButton>
@@ -88,9 +112,16 @@ export const NavBar = () => {
               }
             }}>
                   <IconButton size='large'  color='inherit'>
-                    <Badge badgeContent={5} color='error'>
+                    {
+                      auth ? (<Badge badgeContent={cartQuery?.cart?.length} color='error'>
+                      <ShoppingCartOutlinedIcon/>
+                    </Badge> ) :(
+                      <Badge badgeContent={'0'} color='error'>
                       <ShoppingCartOutlinedIcon/>
                     </Badge>
+                    )
+                    }
+                    
                   </IconButton>
             </Link>
             <IconButton size='large' edge='start' color='inherit' onClick={()=>setIsDrawerOpen(true)} sx={{

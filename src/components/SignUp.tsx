@@ -16,6 +16,8 @@ import { ReactNode, useState, forwardRef, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { usePostUserMutation} from '../features/products/productAPI'
+import Image from '../Images/image.jpg'
+import { baseUrl } from "../features/products/productAPI";
 
 const SnackbarAlert = forwardRef<HTMLDivElement, AlertProps>(
     function SnackbarAlert(props, ref){
@@ -24,7 +26,7 @@ const SnackbarAlert = forwardRef<HTMLDivElement, AlertProps>(
 )
 
 export const SignUp = () => {
-  const [img,setImg] = useState<any>('')
+  const [pImg,setPImg] = useState<any>('')
   const [loading, setLoading] = useState(false)
   const [open, setOpen] = useState<boolean>(false)
   const [toNav, setToNav] = useState<boolean>(false)
@@ -44,18 +46,35 @@ export const SignUp = () => {
     }
     setOpen(false)
   }
-  // console.log('IMAGE',img[0].name)
+  console.log('IMAGE',pImg)
   const onSubmit = async (data:any)=>{
     setLoading(true)
-    console.log(data)
+    let formdata = new FormData()
+    formdata.append('pImg',pImg)
+    formdata.append("userName",data.userName)
+    formdata.append("email",data.email)
+    formdata.append("password",data.password)
+    formdata.append("cpassword",data.cpassword)
+    formdata.append("mobile",data.mobile)
+    formdata.append("age",data.age)
+    formdata.append("gender",data.gender)
+    console.log(data,pImg)
+
+    console.log('FORMDATA',formdata)
     try{
-      postUser(data)
-      console.log(result)
-      if(!result.isError){
+      let response: any = await fetch(`${baseUrl}signup`,{
+        method:"POST",
+        body: formdata
+      })
+      response = await response.json()
+      console.log(response)
+      if(!response.error){
         setOpen(true)
         setLoading(false)
         reset()
         
+      }else{
+        setLoading(false)
       }
       // if(result?.status){
       //   setOpen(true)
@@ -88,10 +107,10 @@ export const SignUp = () => {
       }}>
       <Typography variant="h5" mb={2}>SignUp</Typography>
       <IconButton size="large">
-      <Avatar src={img}/>
+      <Avatar src={pImg.name}/>
       </IconButton>
       <IconButton color="primary" aria-label="upload picture" component="label" sx={{position: 'relative',top:'10px',right:'30px'}}>
-      <input hidden accept="image/*" type="file" onChange={(e)=>setImg(e.target.files)}/>
+      <input hidden accept="image/*" type="file" onChange={(e)=>setPImg(e.target.files[0])}/>
       <CameraAltIcon/>
       </IconButton>
       
