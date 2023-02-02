@@ -67,9 +67,9 @@ export const NavBar = () => {
                            { cartQuery?.cart?.length ? (<Badge badgeContent={cartQuery?.cart?.length} color='error'>
                             <ShoppingCartOutlinedIcon/>
                           </Badge>) : (
-                            (<Badge badgeContent={'0'} color='error'>
+                            <Badge badgeContent={'0'} color='error'>
                             <ShoppingCartOutlinedIcon/>
-                          </Badge>)
+                          </Badge>
                           )}
                         </IconButton>
                       </Link>
@@ -103,7 +103,7 @@ export const NavBar = () => {
                   </Stack>
           )
         }
-
+        {/* Mobile View */}
             <Stack spacing={2} direction='row'>
             <Link component={RouterLink} to='/cart' color="inherit" underline='none' sx={{
               display:{
@@ -113,9 +113,13 @@ export const NavBar = () => {
             }}>
                   <IconButton size='large'  color='inherit'>
                     {
-                      auth ? (<Badge badgeContent={cartQuery?.cart?.length} color='error'>
+                      auth ? (cartQuery?.cart?.length ? (<Badge badgeContent={cartQuery?.cart?.length} color='error'>
                       <ShoppingCartOutlinedIcon/>
-                    </Badge> ) :(
+                    </Badge>) : (
+                      <Badge badgeContent={'0'} color='error'>
+                      <ShoppingCartOutlinedIcon/>
+                    </Badge>
+                    ) ) :(
                       <Badge badgeContent={'0'} color='error'>
                       <ShoppingCartOutlinedIcon/>
                     </Badge>

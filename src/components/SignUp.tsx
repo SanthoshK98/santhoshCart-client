@@ -106,13 +106,13 @@ export const SignUp = () => {
         },
       }}>
       <Typography variant="h5" mb={2}>SignUp</Typography>
-      <IconButton size="large">
+      {/* <IconButton size="large">
       <Avatar src={userImg.name}/>
       </IconButton>
       <IconButton color="primary" aria-label="upload picture" component="label" sx={{position: 'relative',top:'10px',right:'30px'}}>
       <input hidden accept="image/*" type="file" onChange={(e)=>setUserImg(e.target.files[0])}/>
       <CameraAltIcon/>
-      </IconButton>
+      </IconButton> */}
       
       {/* <IconButton color="primary" aria-label="upload picture" component="label">
       <input hidden accept="image/*" type="file" />

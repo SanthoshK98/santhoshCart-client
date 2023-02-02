@@ -1,4 +1,4 @@
-import {Stack, TextField, Typography, Button, IconButton, Paper, CircularProgress, Backdrop, Link} from '@mui/material'
+import {Stack, TextField, Typography, Button, IconButton, Paper, CircularProgress, Backdrop, Link, Modal, Box, Card, CardContent} from '@mui/material'
 import GoogleIcon from '@mui/icons-material/Google';
 import {useEffect, useState} from 'react'
 import { Link as RouterLink,useNavigate, useLocation } from 'react-router-dom';
@@ -8,9 +8,11 @@ import { baseUrl } from '../features/products/productAPI';
 
 export const Login = () => {
   const [email, setEmail] = useState<string>('')
+  const [errMsg, setErrMsg] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [loading, setLoading] = useState(false)
   const [open, setOpen] = useState<boolean>(false)
+  const [modalOpen, setModalOpen] = useState(false);
   const [loginUser, result] = useLoginUserMutation()
   const navigate = useNavigate()
   const location = useLocation()
@@ -34,6 +36,11 @@ export const Login = () => {
         cookie.save('role',response?.role, { path: '/' })
         setLoading(false)
         navigate('/')
+      }else{
+        setLoading(false)
+        setErrMsg(response.message)
+        setModalOpen(true)
+        
       }
     }catch(err){
       console.log(err)
@@ -70,6 +77,36 @@ export const Login = () => {
         <Link component={RouterLink} to='/signup' underline="none"><Typography>Don't have account? Register</Typography></Link>
         </Stack>
       </Paper>  
+      <Modal 
+        open={modalOpen}
+        onClose={()=>setModalOpen(false)}
+      >
+        <Box sx={{
+          // width:{
+          //   sx:'250px',
+          //   md:'350px'
+          // },
+          width:'400',
+          position: 'absolute',
+          top: '50%',
+          left: '35%',
+          p:2
+          }}>
+          <Card elevation={8}>
+            <CardContent>
+            {/* <Typography variant="h5" component='h2' sx={{m:1}}>
+            Not Authorised
+          </Typography> */}
+          <Typography>
+            {errMsg}
+          </Typography>
+            </CardContent>
+          </Card>
+            
+            
+          
+        </Box>
+      </Modal>
     </Stack>
   )
 }
