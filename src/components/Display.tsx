@@ -5,12 +5,12 @@ import { Link as RouterLink, useLocation } from 'react-router-dom';
 import { useCartQuery, useUserQuery } from '../features/products/productAPI';
 
 const Display = () => {
-    const {data : userQuery, isLoading: queryLoading, isError: userError} = useUserQuery()
-    const {data: cartQuery, isLoading: cartLoading, isError: cartError} = useCartQuery()
+    // const {data : userQuery, isLoading: queryLoading, isError: userError} = useUserQuery()
+    // const {data: cartQuery, isLoading: cartLoading, isError: cartError} = useCartQuery()
     const location = useLocation()
     // console.log(location)
-    console.log('HOME_CART',useCartQuery())
-    console.log('HOME_USER',useUserQuery())
+    // console.log('HOME_CART',useCartQuery())
+    // console.log('HOME_USER',useUserQuery())
   return (
     <Stack spacing={2} padding={2} border='2px solid blue'>
     
@@ -163,4 +163,4 @@ const Display = () => {
   )
 }
 
-export default Display
+export default React.memo(Display)

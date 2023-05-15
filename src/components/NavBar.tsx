@@ -1,3 +1,4 @@
+import React from 'react';
 import { AppBar, Button, IconButton, Typography, Toolbar, Stack, Link, Drawer, Box} from '@mui/material';
 import Diversity1Icon from '@mui/icons-material/Diversity1';
 import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined';
@@ -10,7 +11,7 @@ import cookie from 'react-cookies'
 import Avatar from '@mui/material/Avatar';
 import { useCartQuery, useUserQuery } from '../features/products/productAPI';
 
-export const NavBar = () => {
+const NavBar = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false)
   const auth = cookie.load('token')
   console.log("Cookie",auth)
@@ -160,3 +161,5 @@ export const NavBar = () => {
     </AppBar>
   )
 }
+
+export default React.memo(NavBar)

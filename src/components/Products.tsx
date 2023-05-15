@@ -14,7 +14,10 @@ import {
   Button,
   Snackbar,
   Alert,
+  IconButton,
+  AlertTitle,
 } from "@mui/material";
+import ClearIcon from '@mui/icons-material/Clear';
 import { Link as RouterLink, useLocation, useParams } from "react-router-dom";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import React, { useEffect, useState } from "react";
@@ -41,13 +44,14 @@ const Products = () => {
   } = useCartQuery();
 
   const [addCart, result] = useAddCartMutation();
-  //   console.log('Display Data',data)
+    console.log('Result',result)
   console.log(useProductsQuery());
   const handleClose = (e?: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === "clickaway") {
       return;
     }
     setOpen(false);
+    setOpenF(false)
   };
   useEffect(() => {
     if (!isLoading) {
@@ -60,12 +64,13 @@ const Products = () => {
     if (auth) {
       setLoading(true);
       addCart(item);
-      if (result.data.error) {
+      if (result?.data?.error) {
         setLoading(false);
         setOpenF(true)
       } else {
-        setOpen(true);
         setLoading(false);
+        setOpen(true);
+        
       }
     } else {
       setModalOpen(true);
@@ -171,7 +176,8 @@ const Products = () => {
           horizontal: "right",
         }}
       >
-        <Alert variant="outlined" severity="success" onClose={handleClose}>
+        <Alert variant="filled" severity="success" onClose={handleClose}>
+        <AlertTitle>Success</AlertTitle>
           Added to Cart
         </Alert>
       </Snackbar>
@@ -184,7 +190,7 @@ const Products = () => {
           horizontal: "right",
         }}
       >
-        <Alert variant="outlined" severity="success" onClose={handleClose}>
+        <Alert variant="filled" severity="error" onClose={handleClose}>
           Failed to Add Cart
         </Alert>
       </Snackbar>
@@ -199,25 +205,37 @@ const Products = () => {
         onClose={()=>setModalOpen(false)}
       >
         <Box sx={{
-          // width:{
-          //   sx:'250px',
-          //   md:'350px'
-          // },
-          width:'400',
+          width:{
+            sx:'250px',
+            md:'350px'
+          },
+          // width:'500',
           position: 'absolute',
           top: '50%',
           left: '35%',
           p:2
           }}>
           <Card>
+          <Stack direction='row' justifyContent='end' pr={2} mb={-2} pt={1}>
+              <IconButton onClick={()=>setModalOpen(false)}>
+                <ClearIcon/>
+              </IconButton>
+              </Stack>
             <CardContent>
-            <Typography variant="h5" component='h2' sx={{m:1}}>
+            <Typography variant="h5" component='h2' sx={{m:1}} align='center'>
             Not Authorised
           </Typography>
-          <Typography>
-            Please Login to continue.............
+          <Typography align='center'>
+            Please Login to continue
           </Typography>
             </CardContent>
+            {/* <CardActions sx={{border:'1px solid red'}}> */}
+              <Stack direction='row' justifyContent='end' mr={2} mt={-1} pb={1}>
+              <Link component={RouterLink} to='/login' underline="none"><Button>Login</Button></Link>
+              
+              </Stack>
+              
+            {/* </CardActions> */}
           </Card>
             
             
@@ -228,4 +246,4 @@ const Products = () => {
   );
 };
 
-export default Products;
+export default React.memo(Products);
