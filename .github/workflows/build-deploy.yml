@@ -12,10 +12,10 @@ jobs:
     name: Build and Deploy
     runs-on: ubuntu-latest
     env: 
-      BUCKET: ''
+      BUCKET: santhosh-cart-client-bucket
       DIST: build
       REGION: ap-south-1
-      DIST_ID: ''
+      DIST_ID: E3JOFHAD2GML62
       
 
     strategy:
